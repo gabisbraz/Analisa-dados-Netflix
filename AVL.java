@@ -5,6 +5,7 @@ public class AVL {
     public AVL() {
         raiz = null;
         nElem = 0;
+        comparisonsCount = 0;
     }
 
     public AVL(ProgramaNetFlix programa) {
@@ -12,6 +13,11 @@ public class AVL {
         nElem = 1;
     }
 
+    private int comparisonsCount;
+    public int getComparisonsCount() {
+        return comparisonsCount;
+    }
+    
     public NoAVL getNoRaiz() {
         return raiz;
     }
@@ -40,8 +46,9 @@ public class AVL {
         if (noAtual == null) {
             return null;
         }
-
+        
         int compareResult = programa.getId().compareTo(noAtual.getElement().getId());
+        comparisonsCount++;
 
         if (compareResult == 0) {
             return noAtual;
@@ -86,6 +93,10 @@ public class AVL {
 
         return alturaEsquerda - alturaDireita;
     }
+
+    public int getHeight() {
+        return calcularAlturaAVL(raiz);
+    }    
 
     private int calcularAlturaAVL(NoAVL no) {
         if (no == null) {
@@ -132,5 +143,51 @@ public class AVL {
         aux.setFb(0);
         desbA.setFb(0);
         return aux;
+    }
+
+    public void printTree() {
+        printTreeRecursively(raiz, null);
+    }
+    
+    private void printTreeRecursively(NoAVL currentNode, NoAVL parent) {
+        if (currentNode == null) {
+            return;
+        }
+    
+        String parentId = (parent != null) ? parent.getElement().getId() : "null";
+        String leftChildId = (currentNode.getLeft() != null) ? currentNode.getLeft().getElement().getId() : "null";
+        String rightChildId = (currentNode.getRight() != null) ? currentNode.getRight().getElement().getId() : "null";
+    
+        System.out.println("Node ID: " + currentNode.getElement().getId() + 
+                           ", Parent Node ID: " + parentId +
+                           ", Left Child ID: " + leftChildId +
+                           ", Right Child ID: " + rightChildId);
+    
+        // Recursively print the left and right subtrees
+        printTreeRecursively(currentNode.getLeft(), currentNode);
+        printTreeRecursively(currentNode.getRight(), currentNode);
+    }
+
+    public int countNodes() {
+        return countNodesRecursively(raiz);
+    }
+
+    private int countNodesRecursively(NoAVL currentNode) {
+        if (currentNode == null) {
+            return 0;
+        }
+    
+        int leftCount = countNodesRecursively(currentNode.getLeft());
+        int rightCount = countNodesRecursively(currentNode.getRight());
+    
+        return leftCount + rightCount + 1;
+    }
+
+    public int getHeightLeft() {
+        return calcularAlturaAVL(raiz.getLeft());
+    }
+    
+    public int getHeightRight() {
+        return calcularAlturaAVL(raiz.getRight());
     }
 }

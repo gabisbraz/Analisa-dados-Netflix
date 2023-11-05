@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -34,11 +35,11 @@ public class Main {
                     break;
                 case 3:
                     // Opção 3: Inserir Programa
-                    // insertProgram(bstTree, avlTree);
+                    insertProgram(avlTree);
                     break;
                 case 4:
                     // Opção 4: Buscar Programa
-                    // searchProgram(avlTree);
+                    searchProgram(avlTree);
                     break;
                 case 5:
                     // Opção 5: Remover Programa
@@ -46,7 +47,14 @@ public class Main {
                     break;
                 case 6:
                     // Opção 6: Exibir Altura das Árvores
-                    // displayTreeHeight(bstTree, avlTree);
+                    int height = avlTree.getHeight();
+                    System.out.println("Height of the AVL tree: " + height);
+                    int heightRight = avlTree.getHeightRight();
+                    System.out.println("Height of the AVL tree: " + heightRight);
+                    int heightLeft = avlTree.getHeightLeft();
+                    System.out.println("Height of the AVL tree: " + heightLeft);
+                    int nodeCount = avlTree.countNodes();
+                    System.out.println("Number of nodes in the AVL tree: " + nodeCount);
                     break;
                 case 7:
                     // Opção 7: Sair do programa
@@ -95,9 +103,6 @@ public class Main {
                         // Inserir na árvore AVL
                         avlTree.insereAVL(programa);
                         System.out.println(programa.getId());
-                        // System.out.println("____________________________________________________________________");
-                        // avlTree.printTree(avlTree.getNoRaiz());
-                        // System.out.println("____________________________________________________________________");
                     }
                     else System.out.println("Dados incompletos, programa não inserido.");
                 } else {
@@ -105,28 +110,137 @@ public class Main {
                 }
             }
             System.out.println("Dados lidos e inseridos nas árvores.");
+            System.out.println("____________________________________________________________________");
+            avlTree.printTree();
+            System.out.println("____________________________________________________________________");
             // scanner.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+
     // private static void performDataAnalysis(AVLTree avlTree) {
     // // Implementar as análises de dados na AVL aqui
     // }
 
-    // private static void insertProgram(BSTTree bstTree, AVLTree avlTree) {
-    // // Implementar a inserção de um novo programa nas árvores BST e AVL aqui
-    // // Gere um ID único para o programa e insira
-    // }
-
-    // private static void searchProgram(AVLTree avlTree) {
-    // // Implementar a busca de um programa nas árvores AVL aqui
-    // }
-
-    // private static void removeProgram(BSTTree bstTree, AVLTree avlTree) {
-    // // Implementar a remoção de um programa nas árvores BST e AVL aqui
-    // }
+    private static void insertProgram(AVL avlTree) {
+        Scanner scanner = new Scanner(System.in);
+    
+        // Solicitar os dados do programa Netflix ao usuário
+        System.out.println("Inserir um novo programa Netflix:");
+        System.out.print("Título: ");
+        String titulo = scanner.nextLine();
+        System.out.print("Tipo de Show (SHOW/MOVIE): ");
+        String showType = scanner.nextLine();
+        System.out.print("Descrição: ");
+        String descricao = scanner.nextLine();
+        System.out.print("Ano de Lançamento: ");
+        String releaseYear = scanner.nextLine();
+        System.out.print("Classificação Etária: ");
+        String ageCertification = scanner.nextLine();
+        System.out.print("Duração: ");
+        String runtime = scanner.nextLine();
+        System.out.print("Gêneros: ");
+        String generos = scanner.nextLine();
+        System.out.print("Países de Produção: ");
+        String productionCountries = scanner.nextLine();
+        System.out.print("Temporadas: ");
+        String temporadas = scanner.nextLine();
+        System.out.print("ID IMDb: ");
+        String imdbId = scanner.nextLine();
+        System.out.print("Pontuação IMDb: ");
+        String imdbScore = scanner.nextLine();
+        System.out.print("Votos IMDb: ");
+        String imdbVotes = scanner.nextLine();
+        System.out.print("Popularidade TMDb: ");
+        String tmdbPopularity = scanner.nextLine();
+        System.out.print("Pontuação TMDb: ");
+        String tmdbScore = scanner.nextLine();
+    
+        // Determinar a categoria (SHOW ou MOVIE) com base na entrada do usuário
+        String categoria = "";
+        if ("SHOW".equalsIgnoreCase(showType)) {
+            categoria = "ts";
+        } else if ("MOVIE".equalsIgnoreCase(showType)) {
+            categoria = "tm";
+        } else {
+            System.out.println("Categoria inválida. Use SHOW ou MOVIE.");
+        }
+    
+        String id;
+        do {
+            // Gerar um número único aleatório
+            Random random = new Random();
+            int numeroUnico = random.nextInt(99991) + 10;
+    
+            // Criar o ID do programa concatenando categoria e número único
+            id = categoria + numeroUnico;
+        } while (avlTree.searchAVL(new ProgramaNetFlix(id, null, null, null, null, null, null, null, null, null, null, null, null, null, null)) != null);
+    
+        // Criar o objeto ProgramaNetFlix com os dados inseridos
+        ProgramaNetFlix programa = new ProgramaNetFlix(id, titulo, showType, descricao, releaseYear,
+                ageCertification, runtime, generos, productionCountries, temporadas, imdbId,
+                imdbScore, imdbVotes, tmdbPopularity, tmdbScore);
+    
+        // Inserir o programa na árvore AVL
+        avlTree.insereAVL(programa);
+        System.out.println("Programa inserido com sucesso! --> ID: " + id);
+    }
+    
+    private static void searchProgram(AVL avlTree) {
+        Scanner scanner = new Scanner(System.in);
+    
+        // Solicitar o "id" do programa ao usuário
+        System.out.print("Digite o ID do programa que deseja pesquisar: ");
+        String searchId = scanner.nextLine();
+    
+        // Iniciar a contagem do tempo
+        long startTime = System.nanoTime();
+    
+        // Realizar a pesquisa na árvore AVL
+        NoAVL foundProgram = avlTree.searchAVL(new ProgramaNetFlix(searchId, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+    
+        // Registrar o tempo de execução da pesquisa
+        long endTime = System.nanoTime();
+        long elapsedTime = endTime - startTime;
+    
+        // Verificar se o programa foi encontrado
+        if (foundProgram != null) {
+            System.out.println("Programa encontrado!");
+            System.out.println("Dados do programa:");
+            // Apresentar os dados do programa, por exemplo:
+            System.out.println("ID: " + foundProgram.getElement().getId());
+            System.out.println("Título: " + foundProgram.getElement().getTitulo());
+            // Adicione outras informações conforme necessário
+    
+            // Apresentar o número de comparações e o tempo de execução
+            System.out.println("Número de comparações: " + avlTree.getComparisonsCount());
+            System.out.println("Tempo de execução (nanossegundos): " + elapsedTime);
+        } else {
+            System.out.println("Programa não encontrado.");
+        }
+    }
+    
+    private static void removeProgram(AVL avlTree) {
+        Scanner scanner = new Scanner(System.in);
+    
+        // Solicitar o "ID" do programa ao usuário
+        System.out.print("Digite o ID do programa que deseja remover: ");
+        String removeId = scanner.nextLine();
+    
+        // Criar um programa fictício com o ID fornecido para realizar a remoção
+        ProgramaNetFlix programaToRemove = new ProgramaNetFlix(removeId, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+    
+        // Realizar a remoção do programa da árvore AVL
+        boolean removed = avlTree.removeAVL(programaToRemove);
+    
+        if (removed) {
+            System.out.println("Programa removido com sucesso da árvore AVL.");
+        } else {
+            System.out.println("Programa com o ID especificado não foi encontrado na árvore AVL.");
+        }
+    }
 
     // private static void displayTreeHeight(BSTTree bstTree, AVLTree avlTree) {
     // // Exibir a altura das árvores BST e AVL aqui
