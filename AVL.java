@@ -190,4 +190,51 @@ public class AVL {
     public int getHeightRight() {
         return calcularAlturaAVL(raiz.getRight());
     }
+
+    public boolean removeNode(String programId) {
+        if (raiz != null) {
+            setNoRaiz(removeNodeById(raiz, programId));
+            setNElem(getNElem() - 1);
+            return true;
+        }
+        return false;
+    }
+
+    private NoAVL removeNodeById(NoAVL currentNode, String programId) {
+        if (currentNode == null) {
+            return currentNode;
+        }
+
+        int compareResult = programId.compareTo(currentNode.getElement().getId());
+
+        if (compareResult < 0) {
+            currentNode.setLeft(removeNodeById(currentNode.getLeft(), programId));
+        } else if (compareResult > 0) {
+            currentNode.setRight(removeNodeById(currentNode.getRight(), programId));
+        } else {
+            // Node to be deleted found
+            if (currentNode.getLeft() == null) {
+                return currentNode.getRight();
+            } else if (currentNode.getRight() == null) {
+                return currentNode.getLeft();
+            }
+
+            // Node with two children: get the in-order successor
+            currentNode.setElement(findInOrderSuccessor(currentNode.getRight()));
+            currentNode.setRight(removeNodeById(currentNode.getRight(), currentNode.getElement().getId()));
+        }
+
+        currentNode.setFb(calcularFatorBalanceamento(currentNode));
+        return balancear(currentNode);
+    }
+
+    private ProgramaNetFlix findInOrderSuccessor(NoAVL currentNode) {
+        ProgramaNetFlix inOrderSuccessor = currentNode.getElement();
+        while (currentNode.getLeft() != null) {
+            inOrderSuccessor = currentNode.getLeft().getElement();
+            currentNode = currentNode.getLeft();
+        }
+        return inOrderSuccessor;
+    }
+
 }
