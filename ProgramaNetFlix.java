@@ -1,3 +1,6 @@
+import java.util.List;
+import java.util.Arrays;
+
 public class ProgramaNetFlix {
     private String id;
     private String titulo;
@@ -6,8 +9,8 @@ public class ProgramaNetFlix {
     private String releaseYear;
     private String ageCertification;
     private String runtime;
-    private String generos;
-    private String productionCountries;
+    private List<String> generos;
+    private List<String> productionCountries;
     private String temporadas;
     private String imdbId;
     private String imdbScore;
@@ -16,10 +19,10 @@ public class ProgramaNetFlix {
     private String tmdbScore;
 
     public ProgramaNetFlix(String id, String titulo, String showType, String descricao, String releaseYear,
-            String ageCertification, String runtime, String generos, String productionCountries,
+            String ageCertification, String runtime, List<String> generos, List<String> productionCountries,
             String temporadas, String imdbId, String imdbScore, String imdbVotes, String tmdbPopularity,
             String tmdbScore) {
-                
+
         this.id = id;
         this.titulo = titulo;
         this.showType = showType;
@@ -93,19 +96,19 @@ public class ProgramaNetFlix {
         this.runtime = runtime;
     }
 
-    public String getGeneros() {
+    public List<String> getGeneros() {
         return generos;
     }
 
-    public void setGeneros(String generos) {
+    public void setGeneros(List<String> generos) {
         this.generos = generos;
     }
 
-    public String getProductionCountries() {
+    public List<String> getProductionCountries() {
         return productionCountries;
     }
 
-    public void setProductionCountries(String productionCountries) {
+    public void setProductionCountries(List<String> productionCountries) {
         this.productionCountries = productionCountries;
     }
 
@@ -159,22 +162,20 @@ public class ProgramaNetFlix {
 
     @Override
     public String toString() {
-        return "ProgramaNetFlix{" +
-                "id='" + id + '\'' +
-                ", titulo='" + titulo + '\'' +
-                ", showType='" + showType + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", releaseYear='" + releaseYear + '\'' +
-                ", ageCertification='" + ageCertification + '\'' +
-                ", runtime='" + runtime + '\'' +
-                ", generos='" + generos + '\'' +
-                ", productionCountries='" + productionCountries + '\'' +
-                ", temporadas='" + temporadas + '\'' +
-                ", imdbId='" + imdbId + '\'' +
-                ", imdbScore='" + imdbScore + '\'' +
-                ", imdbVotes='" + imdbVotes + '\'' +
-                ", tmdbPopularity='" + tmdbPopularity + '\'' +
-                ", tmdbScore='" + tmdbScore + '\'' +
-                '}';
-    }
+        return "ID: " + id +
+                "\nTítulo: " + titulo +
+                "\nTipo de Show: " + showType +
+                "\nDescrição: " + descricao +
+                "\nAno de Lançamento: " + releaseYear +
+                "\nClassificação Etária: " + ageCertification +
+                "\nDuração: " + runtime +
+                "\nGêneros: " + generos +
+                "\nPaíses de Produção: " + productionCountries +
+                "\nTemporadas: " + temporadas +
+                "\nID IMDb: " + imdbId +
+                "\nPontuação IMDb: " + imdbScore +
+                "\nVotos IMDb: " + imdbVotes +
+                "\nPopularidade TMDb: " + tmdbPopularity +
+                "\nPontuação TMDb: " + tmdbScore;
+    } 
 }
