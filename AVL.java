@@ -385,7 +385,7 @@ public class AVL {
         List<ProgramaNetFlix> topPrograms = new ArrayList<>();
         for (Map.Entry<String, Double> entry : genreScoresMap.entrySet()) {
             String genre = entry.getKey();
-            double totalScore = entry.getValue();
+            // double totalScore = entry.getValue();
 
             // Obter os top programas para o gênero
             List<ProgramaNetFlix> topProgramsForGenre = getTopProgramsForGenre(raiz, genre, topCount);

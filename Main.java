@@ -68,7 +68,7 @@ public class Main {
         }
     }
 
-    private static void readDataFromFile(AVL avlTree, BST bstTree) {
+    private static void  readDataFromFile(AVL avlTree, BST bstTree) {
         System.out.println("Digite o nome do arquivo CSV:");
         Scanner scanner = new Scanner(System.in);
         String fileName = scanner.nextLine();
@@ -117,7 +117,8 @@ public class Main {
             // avlTree.printTree();
             // System.out.println("____________________________________________________________________");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Algo deu errado!");
+            // e.printStackTrace();
         }
     }
 
@@ -165,10 +166,10 @@ public class Main {
         System.out.println("----------------------------- Análise 3 -----------------------------\nMELHORES PROGRAMAS POR GÊNERO");
         avlTree.printBestProgramForEachGenre();
 
-        System.out.println("----------------------------- Análise 4 -----------------------------\nQUANTOS FILMES E SÉRIES CADA GÊNERO POSSUI");
+        System.out.println("----------------------------- Análise 4 -----------------------------\nQUANTIDADE DE FILMES E SÉRIES QUE CADA GÊNERO POSSUI");
         avlTree.countMoviesAndShowsByGenre();
     
-        System.out.println("----------------------------- Análise 5 -----------------------------\nTOP 5 ANOS QUE POSSUEM MAIOR IMDBSCORE");
+        System.out.println("----------------------------- Análise 5 -----------------------------\nSÉRIES QUE POSSUEM O NÚMERO DE TEMPORADAS IGUAL A N");
         System.out.println("Digite o número de temporadas desejado: ");
         int numTemporadasInput = scanner.nextInt();
         scanner.nextLine(); // consume the newline character
@@ -279,7 +280,7 @@ public class Main {
         boolean removedAVL = avlTree.removeNode(removeId);
         boolean removedBST = bstTree.remove(removeId);
         if (removedAVL & removedBST)
-            System.out.println("Programa removido com sucesso da árvore AVL.");
+            System.out.println("Programa removido com sucesso das árvores AVL e BST.");
         else
             System.out.println("Programa com o ID especificado não foi encontrado na árvore AVL.");
     }
