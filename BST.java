@@ -1,11 +1,15 @@
 public class BST extends BinaryTree {
 
+	private int comparisonsCount;
+
 	public BST() {
 		super();
+		comparisonsCount = 0;
 	}
 
 	public BST(BTNode root) {
 		super(root);
+		comparisonsCount = 0;
 	}
 
 	public BTNode search(ProgramaNetFlix programa) {
@@ -17,6 +21,7 @@ public class BST extends BinaryTree {
 	}
 
 	private BTNode search(ProgramaNetFlix programa, boolean ignoreCase) {
+		comparisonsCount = 0;
 		return searchHelper(super.getRoot(), programa, ignoreCase);
 	}
 
@@ -26,6 +31,7 @@ public class BST extends BinaryTree {
 		}
 
 		int diff = diffCompare(programa, node.getData(), ignoreCase);
+		comparisonsCount++;
 
 		if (diff < 0) {
 			return searchHelper(node.getLeft(), programa, ignoreCase);
@@ -35,6 +41,10 @@ public class BST extends BinaryTree {
 			return node;
 		}
 	}
+
+	public int getComparisonsCount() {
+        return comparisonsCount;
+    }
 
 	public void insert(ProgramaNetFlix programa) {
 		insert(programa, false);

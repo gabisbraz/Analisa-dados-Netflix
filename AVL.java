@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -508,6 +511,67 @@ public class AVL {
             // Continue traversal for both left and right subtrees
             countMoviesAndShowsByGenreRecursively(node.getLeft(), genre, counts);
             countMoviesAndShowsByGenreRecursively(node.getRight(), genre, counts);
+        }
+    }
+
+    public List<ProgramaNetFlix> getShowsWithNumTemporadas(int numTemporadasInput) {
+        List<ProgramaNetFlix> shows = new ArrayList<>();
+        getShowsWithNumTemporadasRecursively(raiz, numTemporadasInput, shows);
+        return shows;
+    }
+
+    private void getShowsWithNumTemporadasRecursively(NoAVL node, int numTemporadasInput, List<ProgramaNetFlix> shows) {
+        if (node != null) {
+            ProgramaNetFlix programa = node.getElement();
+            if (programa != null && "SHOW".equalsIgnoreCase(programa.getShowType())) {
+                // int numTemporadas = Integer.parseInt(programa.getTemporadas());
+                double numTemporadasDouble = Double.parseDouble(programa.getTemporadas());
+                int numTemporadas = (int) numTemporadasDouble;
+                if (numTemporadas == numTemporadasInput) {
+                    shows.add(programa);
+                }
+            }
+
+            getShowsWithNumTemporadasRecursively(node.getLeft(), numTemporadasInput, shows);
+            getShowsWithNumTemporadasRecursively(node.getRight(), numTemporadasInput, shows);
+        }
+    }
+
+        public void saveDataToFile(String fileName) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            saveDataRecursively(raiz, writer);
+            System.out.println("Dados salvos com sucesso no arquivo: " + fileName);
+        } catch (IOException e) {
+            System.err.println("Erro ao salvar dados no arquivo: " + e.getMessage());
+        }
+    }
+
+    private void saveDataRecursively(NoAVL node, BufferedWriter writer) throws IOException {
+        if (node != null) {
+            ProgramaNetFlix programa = node.getElement();
+            if (programa != null) {
+                // Customize the format based on your data structure
+                String data = programa.getId() + "," +
+                programa.getTitulo() + "," +
+                programa.getShowType() + "," +
+                programa.getDescricao() + "," +
+                programa.getReleaseYear() + "," +
+                programa.getAgeCertification() + "," +
+                programa.getRuntime() + "," +
+                String.join(",", programa.getGeneros()) + "," +
+                String.join(",", programa.getProductionCountries()) + "," +
+                programa.getTemporadas() + "," +
+                programa.getImdbId() + "," +
+                programa.getImdbScore() + "," +
+                programa.getImdbVotes() + "," +
+                programa.getTmdbPopularity() + "," +
+                programa.getTmdbScore();
+                writer.write(data);
+                writer.newLine();
+            }
+
+            saveDataRecursively(node.getLeft(), writer);
+            saveDataRecursively(node.getRight(), writer);
         }
     }
 
